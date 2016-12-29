@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.tvs</groupId>
+	<artifactId>IbmMqWithSpringBoot</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.4.3.RELEASE</version>
+		<relativePath/>
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-activemq</artifactId>
+		</dependency>
+	
+		<!--
+			The following dependencies are required for Ibm Mq.
+			You will most likely not be able to find these on maven central.
+			Generally they are available within the environment where you need to make Ibm Mq functional.
+
+			In general you need these dependencies:
+			 - dhbcore.jar
+			 - com.ibm.mq.pcf.jar
+			 - com.ibm.mqjms.jar
+			 - com.ibm.mq.jmqi.jar
+			 - com.ibm.mq.jar
+			 - com.ibm.mq.headers.jar
+			 - com.ibm.mq.jms.Nojndi.jar
+			 - com.ibm.mq.commonservices.jar
+		 -->
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>dhbcore</artifactId>
+			<version>7.5.0.5_2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mq.pcf</artifactId>
+			<version>7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mqjms</artifactId>
+			<version>7.5.0.5_2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mq.jmqi</artifactId>
+			<version>7.5.0.5_2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mq</artifactId>
+			<version>7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mq.headers</artifactId>
+			<version>7.5.0.5_2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mq.jms.Nojndi</artifactId>
+			<version>7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.mq</groupId>
+			<artifactId>com.ibm.mq.commonservices</artifactId>
+			<version>7.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>

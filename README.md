@@ -3,6 +3,7 @@
 This project is meant to demonstrate how to setup IBM Mq with Spring Boot.
 
 Inside the pom.xml you will find a description of the dependencies that Ibm MQ requires.
+The required jars can be found in the `jars` directory.
 
 The MqQueueConnectionFactory can be configured in 2 ways which are both implemented: 
  - Binding mode 

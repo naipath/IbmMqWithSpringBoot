@@ -2,11 +2,15 @@ package com.tvs;
 
 import com.ibm.mq.jms.MQQueue;
 import com.ibm.mq.jms.MQQueueConnectionFactory;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.JMSException;
@@ -24,30 +28,53 @@ public class IbmMqWithSpringBoot implements CommandLineRunner {
     @Value("${ibm.mq.queueName}")
     private String queueName;
 
-    private final JmsTemplate jmsTemplate;
+    @Value("${ibm.mq.clientmode.localAddress}")
+    private String localAddress;
 
-    public IbmMqWithSpringBoot(JmsTemplate jmsTemplate) {
-        this.jmsTemplate = jmsTemplate;
-    }
+    @Value("${ibm.mq.clientmode.port}")
+    private Integer port;
+
+    @Autowired
+    private JmsTemplate jmsTemplate;
 
     /**
      * Setting up the JmsTemplate with the configured MqQueueConnectionFactory
      */
     @Bean
-    public JmsTemplate jmsTemplate() throws JMSException {
+    public JmsTemplate jmsTemplate(@Autowired MQQueueConnectionFactory mqQueueConnectionFactory) throws JMSException {
         JmsTemplate jmsTemplate = new JmsTemplate();
-        jmsTemplate.setConnectionFactory(ibmMQConnectionFactory());
+        jmsTemplate.setConnectionFactory(mqQueueConnectionFactory);
         return jmsTemplate;
     }
 
     /**
-     * Setting up the MQQueueConnectionFactory
+     * Setting up the MQQueueConnectionFactory in a binding mode
      */
     @Bean
-    public MQQueueConnectionFactory ibmMQConnectionFactory() throws JMSException {
+    @Primary
+    @Qualifier("bindingmode")
+    public MQQueueConnectionFactory ibmMQConnectionFactoryInBindingMode() throws JMSException {
         MQQueueConnectionFactory mqQueueConnectionFactory = new MQQueueConnectionFactory();
         mqQueueConnectionFactory.setQueueManager(queueManagerName);
+
         mqQueueConnectionFactory.setTransportType(0);
+
+        return mqQueueConnectionFactory;
+    }
+
+    /**
+     * Setting up the MQQueueConnectionFactory in a Client mode
+     */
+    @Bean
+    @Qualifier("clientmode")
+    public MQQueueConnectionFactory ibmMQConnectionFactoryInClientMode() throws JMSException {
+        MQQueueConnectionFactory mqQueueConnectionFactory = new MQQueueConnectionFactory();
+        mqQueueConnectionFactory.setQueueManager(queueManagerName);
+        mqQueueConnectionFactory.setTransportType(1);
+
+        mqQueueConnectionFactory.setLocalAddress(localAddress);
+        mqQueueConnectionFactory.setPort(port);
+
         return mqQueueConnectionFactory;
     }
 

@@ -1,3 +1,7 @@
 ibm.mq:
-  queueManagerName: queuemanager-name
-  queueName: queue-name
+  queueManagerName: QM1
+  queueName: Q1
+
+  clientmode:
+    localAddress: localhost
+    port: 1414
